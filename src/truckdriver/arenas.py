@@ -2,7 +2,27 @@ import pymunk
 import pyglet
 from ..engine.base.physics_server import PhysicsServer
 import math
-class Arena1:
+
+class Arena:
+    def update(self, delta : float):
+        points = [(-3,-12), (3,-12), (3,12),(-3,12)]
+        friction = self.friction
+        for container in self.containers:
+            for point in points:
+                container.apply_force_at_world_point(-friction*container.velocity_at_local_point(point), container.local_to_world(point))
+
+    def draw(self):
+        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST) 
+        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MIN_FILTER, pyglet.gl.GL_NEAREST)
+        self.sprite.draw()
+        for i in range(len(self.sprites)):
+            self.sprites[i].update(x = self.containers[i].position.x, y =self.containers[i].position.y, rotation = -self.containers[i].rotation_vector.get_angle_degrees())
+            pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST) 
+            pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MIN_FILTER, pyglet.gl.GL_NEAREST)
+            self.sprites[i].draw()
+        pass
+
+class Arena1(Arena):
     def __init__(self):
         physics_server = PhysicsServer.instance()
         self.static = pymunk.Body(body_type = pymunk.Body.STATIC)
@@ -32,29 +52,11 @@ class Arena1:
             physics_server._space.add(body, shape)
             self.sprites.append(sprite)
             self.containers.append(body)
+        
+        self.friction = 500
     
-    def update(self, delta : float):
-        points = [(-3,-12), (3,-12), (3,12),(-3,12)]
-        friction = 500
-        for container in self.containers:
-            for point in points:
-                container.apply_force_at_local_point(-friction*container.velocity_at_local_point(point), point)
 
-
-        pass
-
-    def draw(self):
-        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST) 
-        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MIN_FILTER, pyglet.gl.GL_NEAREST)
-        self.sprite.draw()
-        for i in range(len(self.sprites)):
-            self.sprites[i].update(x = self.containers[i].position.x, y =self.containers[i].position.y, rotation = -self.containers[i].rotation_vector.get_angle_degrees())
-            pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST) 
-            pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MIN_FILTER, pyglet.gl.GL_NEAREST)
-            self.sprites[i].draw()
-        pass
-
-class Arena2:
+class Arena2(Arena):
     def __init__(self):
         physics_server = PhysicsServer.instance()
         self.static = pymunk.Body(body_type = pymunk.Body.STATIC)
@@ -87,24 +89,10 @@ class Arena2:
             self.sprites.append(sprite)
             self.containers.append(body)
     
-    def update(self, delta : float):
-        points = [(-3,-12), (3,-12), (3,12),(-3,12)]
-        friction = 100
-        for container in self.containers:
-            for point in points:
-                container.apply_force_at_world_point(-friction*container.velocity_at_local_point(point), container.local_to_world(point))
+        self.friction = 100
 
-    def draw(self):
-        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST) 
-        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MIN_FILTER, pyglet.gl.GL_NEAREST)
-        self.sprite.draw()
-        for i in range(len(self.sprites)):
-            self.sprites[i].update(x = self.containers[i].position.x, y =self.containers[i].position.y, rotation = -self.containers[i].rotation_vector.get_angle_degrees())
-            pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST) 
-            pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MIN_FILTER, pyglet.gl.GL_NEAREST)
-            self.sprites[i].draw()
 
-class Arena3:
+class Arena3(Arena):
     def __init__(self):
         physics_server = PhysicsServer.instance()
         self.static = pymunk.Body(body_type = pymunk.Body.STATIC)
@@ -154,19 +142,4 @@ class Arena3:
             self.sprites.append(sprite)
             self.containers.append(body)
     
-    def update(self, delta : float):
-        points = [(-3,-12), (3,-12), (3,12),(-3,12)]
-        friction = 100
-        for container in self.containers:
-            for point in points:
-                container.apply_force_at_world_point(-friction*container.velocity_at_local_point(point), container.local_to_world(point))
-
-    def draw(self):
-        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST) 
-        pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MIN_FILTER, pyglet.gl.GL_NEAREST)
-        self.sprite.draw()
-        for i in range(len(self.sprites)):
-            self.sprites[i].update(x = self.containers[i].position.x, y =self.containers[i].position.y, rotation = -self.containers[i].rotation_vector.get_angle_degrees())
-            pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MAG_FILTER, pyglet.gl.GL_NEAREST) 
-            pyglet.gl.glTexParameteri(pyglet.gl.GL_TEXTURE_2D, pyglet.gl.GL_TEXTURE_MIN_FILTER, pyglet.gl.GL_NEAREST)
-            self.sprites[i].draw()
+        self.friction = 100
