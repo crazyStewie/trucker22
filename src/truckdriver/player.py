@@ -54,7 +54,7 @@ class Player(PhysicsNode):
         print(self.damage)
         forward : pymunk.Vec2d = pymunk.Vec2d(0, 1).rotated(self.body.angle).normalized()
         right : pymunk.Vec2d = forward.rotated_degrees(-90).normalized()
-        max_steering = 0.4
+        max_steering = 0.6
         max_power = 100
         self.steering = 0
         self.power = 0
