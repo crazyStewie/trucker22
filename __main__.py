@@ -14,7 +14,7 @@ from src.truckdriver.score_display import ScoreDisplay
 
 class TruckDriver:
     def __init__(self):
-        self.window : pyglet.window.Window = pyglet.window.Window(640 , 480)
+        self.window : pyglet.window.Window = pyglet.window.Window(640 , 480, caption = "Trucker22")
         self.options = pymunk.pyglet_util.DrawOptions()
         pyglet.gl.glScalef(4.0, 4.0, 4.0);
         self.end_timer = 0
