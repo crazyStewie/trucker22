@@ -120,7 +120,6 @@ class Arena3(Arena):
 
         physics_server._space.add(pymunk.Segment(self.static, (24, 8), (24, -24), 0))
         physics_server._space.add(pymunk.Segment(self.static, (24, -24), (8, -24), 0))
-        physics_server._space.add(pymunk.Poly(self.static, [(7*8, 6*8),(10*8, 6*8),(10*8, 9*8),(7*8, 9*8)]))
         self.image = pyglet.image.load("rsc/arena3.png")
         self.image.anchor_x = 0
         self.image.anchor_y = 0
